@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Implements hook_user_insert().
+*/
+function update_profile_user_insert(&$edit, &$account, $category = NULL) {
+    if(empty($edit['administer_users'])){
+        $query = db_insert('users_roles');
+        $query->fields(array('uid' => $edit['uid'],'rid' => 6));
+        $query->execute();
+        $query = db_update('users');
+        $query->fields(array('name'=>$edit['mail']))->condition('uid', $edit['uid'], '=');
+        $query->execute();
+    }
+} 
