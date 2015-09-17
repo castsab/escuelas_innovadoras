@@ -1,0 +1,183 @@
+/*Body*/
+
+body
+{
+  background-image: url(../../images/geometry2.png);
+  background-repeat: repeat;
+  font-family: 'maven_proregular';
+  color: #4D4D4D;
+}
+
+@font-face {
+    font-family: 'maven_problack';
+    src: url('../../fonts/maven_pro_black-webfont.eot');
+    src: url('../../fonts/maven_pro_black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/maven_pro_black-webfont.woff2') format('woff2'),
+         url('../../fonts/maven_pro_black-webfont.woff') format('woff'),
+         url('../../fonts/maven_pro_black-webfont.ttf') format('truetype'),
+         url('../../fonts/maven_pro_black-webfont.svg#maven_problack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'maven_probold';
+    src: url('../../fonts/maven_pro_bold-webfont.eot');
+    src: url('../../fonts/maven_pro_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/maven_pro_bold-webfont.woff2') format('woff2'),
+         url('../../fonts/maven_pro_bold-webfont.woff') format('woff'),
+         url('../../fonts/maven_pro_bold-webfont.ttf') format('truetype'),
+         url('../../fonts/maven_pro_bold-webfont.svg#maven_probold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'maven_promedium';
+    src: url('../../fonts/maven_pro_medium-webfont.eot');
+    src: url('../../fonts/maven_pro_medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/maven_pro_medium-webfont.woff2') format('woff2'),
+         url('../../fonts/maven_pro_medium-webfont.woff') format('woff'),
+         url('../../fonts/maven_pro_medium-webfont.ttf') format('truetype'),
+         url('../../fonts/maven_pro_medium-webfont.svg#maven_promedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'maven_proregular';
+    src: url('../../fonts/maven_pro_regular-webfont.eot');
+    src: url('../../fonts/maven_pro_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/maven_pro_regular-webfont.woff2') format('woff2'),
+         url('../../fonts/maven_pro_regular-webfont.woff') format('woff'),
+         url('../../fonts/maven_pro_regular-webfont.ttf') format('truetype'),
+         url('../../fonts/maven_pro_regular-webfont.svg#maven_proregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.header
+ {
+  padding: 10px;
+  border-bottom: solid 3px #E3462D;
+  border-top: solid 3px #FBC700;
+  background-image: url(../../images/imagenHeader-01.png);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+ }
+
+ #page
+ {
+ 	background-color: white;
+ }
+
+a
+{
+	text-decoration: none;
+	color: #2B356A;
+}
+
+a:hover
+{
+	color: #E3462D;
+}
+
+#main-menu
+{
+	margin-left: -10px;
+}
+
+.region-sidebar-first
+{
+	background-color: #56ABDD;
+}
+
+.region-sidebar-second
+{
+	padding-top: 10px;
+}
+
+#block-user-login
+{
+	background-color: #FBC700;
+	padding: 1em;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	margin-top: 10px;
+}
+
+button, input[type="submit"]
+{
+	background-color: #56ABDD;
+	padding: 0.6em;
+	outline: solid 4px rgba(255,255,255,0.5);
+	border: none;
+	color: white;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+button:hover, input[type="submit"]:hover
+{
+	background-color: #E3462D;
+}
+
+.icoMisProyectos
+{
+	background: url(../../images/ejemplosIconos-01.png) no-repeat left top;
+  	padding: 3px 0px 3px 35px;
+  	/* reset styles (optional): */
+  	list-style: none;
+  	margin: 5px 0px 0px -20px;
+}
+
+.icoInvitar
+{
+	background: url(../../images/ejemplosIconos-02.png) no-repeat left top;
+  	padding: 3px 0px 3px 35px;
+  	/* reset styles (optional): */
+  	list-style: none;
+  	margin: 5px 0px 0px -20px;
+}
+
+.icoNuevoPro
+{
+	background: url(../../images/ejemplosIconos-03.png) no-repeat left top;
+  	padding: 3px 0px 3px 35px;
+  	/* reset styles (optional): */
+  	list-style: none;
+  	margin: 5px 0px 0px -20px;
+}
+
+.icoAyuda
+{
+	background: url(../../images/ejemplosIconos-04.png) no-repeat left top;
+  	padding: 3px 0px 3px 35px;
+  	/* reset styles (optional): */
+  	list-style: none;
+  	margin: 5px 0px 0px -20px;
+}
+
+.icoCerrar
+{
+	background: url(../../images/ejemplosIconos-05.png) no-repeat left top;
+  	padding: 3px 0px 3px 35px;
+  	/* reset styles (optional): */
+  	list-style: none;
+  	margin: 5px 0px 0px -20px;
+}
