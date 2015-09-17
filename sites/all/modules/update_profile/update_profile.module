@@ -3,7 +3,7 @@
 /**
  * Implements hook_user_insert().
 */
-function update_profile_user_insert(&$edit, &$account, $category = NULL) {
+function update_profile_user_insert(&$edit) {
     if(empty($edit['administer_users'])){
         $query = db_insert('users_roles');
         $query->fields(array('uid' => $edit['uid'],'rid' => 6));

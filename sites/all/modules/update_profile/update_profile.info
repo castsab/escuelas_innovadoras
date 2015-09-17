@@ -1,5 +1,5 @@
 name = "Update profile user"
-description = ""
+description = "Este módulo permite la actualización del rol del usuario, cuando se registra por primera."
 core = 7.x
 package = "Other"
 version = "7.x-1.0"
