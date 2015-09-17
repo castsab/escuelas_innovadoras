@@ -1,0 +1,272 @@
+<?php
+
+/**
+* Implements hook_menu().
+*/
+
+function projects_menu() {
+    
+     $items['projects'] = array(
+        'title' => t('My projects'),
+        'description' => 'Lista de proyectos.',
+        'page callback' => 'projects_sort_with_pager_content', 
+        'access arguments' => array('access_projects_list'),
+        'weight' => -14,
+        
+    );
+    
+    $items['projects/add'] = array(
+        'title' => t('Add projects'),
+        'description' => 'Adicionar proyecto.',
+        'page callback' => 'projects_block_view', 
+        'access arguments' => array('access_projects_add'),
+        'weight' => -14,
+        
+    );
+
+    $items['projects/%/edit'] = array(
+        'title' => t('Edit projects'),
+        'description' => 'Editar proyecto.',
+        'page callback' => 'projects_edit_block_view',
+        'page argument' => array(3),
+        'access arguments' => array('access_projects_edit'),
+        'weight' => -14,
+        
+    );
+
+    $items['projects/%/delete'] = array(
+        'title' => t('Delete projects'),
+        'description' => 'Borrar proyecto.',
+        'page callback' => 'projects_delete',
+        'page argument' => array(3),
+        'access arguments' => array('access_projects_delete'),
+        'weight' => -14,
+        
+    );
+
+    return $items;
+}
+
+/**
+* Implements hook_permission().
+*/
+
+function projects_permission() {
+    return array(
+        'access_projects_list' => array(
+            'title' => 'Consultar proyectos de aprendizaje',
+            'description' => 'Permitir acción de consulta sobre este módulo.',
+            'restrict access' => TRUE,
+        ),
+        
+        'access_projects_add' => array(
+            'title' => 'Adicionar proyectos de aprendizaje',
+            'description' => 'Permitir acción de registro sobre este módulo.',
+            'restrict access' => TRUE,
+        ),
+        
+        'access_projects_edit' => array(
+            'title' => 'Actualizar proyectos de aprendizaje',
+            'description' => 'Permitir accion de edición sobre este módulo.',
+            'restrict access' => TRUE,
+        ),
+        
+        'access_projects_delete' => array(
+            'title' => 'Borrar proyectos de aprendizaje',
+            'description' => 'Permitir acción de borrado sobre este módulo.',
+            'restrict access' => TRUE,
+        ),
+    );
+}
+
+/*
+ * action list 
+*/
+
+function projects_sort_with_pager_content() {
+    $header = array(
+        array('data' => t('Project id'), 'field' => 'pid', 'sort' => 'asc'),
+        array('data' => t('Name'), 'field' => 'name'),
+        array('data' => t('Description'), 'field' => 'description'),
+        array('data' => t('Status'), 'field' => 'status'),
+        array('data' => t('Action')),
+    );
+
+    $query = db_select('projects', 'p');
+    $query->fields('p', array('pid', 'name', 'description', 'status'));
+
+    $table_sort = $query->extend('TableSort')->orderByHeader($header); // Add order by headers.
+    $pager = $table_sort->extend('PagerDefault')->limit(5);
+    $result = $pager->execute();
+
+    $rows = array();
+    foreach ($result as $rw) {
+        $status = ($rw->status == 1)?'Activo':'Inactivo';
+        $rows[] = array($rw->pid, $rw->name,$rw->description, $status, "<a href = 'projects/$rw->pid/edit'>".t('Edit')."</a> | <a href = 'projects/$rw->pid/delete' onclick = 'return confirm(\"Esta seguro?\")'>".t('Delete')."</a>");
+    }
+    
+    $output = "";
+    $output .= '<a href ="projects/add">'.t('New project').'</a>';
+    if (!empty($rows)) {
+        $output .= theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('pid' => 'sort-table')));
+        $output .= theme('pager');
+    } else {
+        $output .= t("No results found.");
+    }
+    
+    return $output;
+}
+
+/*
+ * action add 
+*/
+
+function projects_block_view($block_name = '') {
+    if (drupal_is_front_page())
+        return NULL;
+    $form = drupal_get_form('projects_add_table_form');
+    $block = array('content' => $form);
+    return $block;
+}
+
+function projects_add_table_form($form, &$form_state){
+    
+    $form['name'] = array(
+        '#title' => t('Name'),
+        '#type' => 'textfield',
+        '#name' => t('name'),
+        '#size' => 40,
+        '#maxlength' => 120,
+        '#required' => TRUE,
+    );
+
+    
+    $form['description'] = array(
+        '#title' => t('Description'),
+        '#type' => 'textarea',
+        '#rows' => 10,
+        '#columns' => 40,
+        '#name' => t('description'),
+        '#required' => TRUE,
+    );
+
+    $form['status'] = array(
+        '#title' => t('Status'),
+        '#type' => 'checkbox',
+        '#name' => t('status'),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Save'),
+    );
+
+    $form['#submit'][] = 'projects_add_submit_handler';
+    return $form;
+}
+
+function projects_add_submit_handler($form, &$form_state) {
+    $error = 1;
+    if (!isset($form_state['values']['name']) || !isset($form_state['values']['name']))
+        $error = 0;
+    
+    if ($error) {
+        $name = $form_state['values']['name'];
+        $description = $form_state['values']['description'];
+        $query = db_insert('projects');
+        $query->fields(array('name' => $name,'description' => $description,));
+        $query->execute();
+        drupal_set_message(t('Record has been added'));
+    }
+}
+
+/*
+ * action edit 
+*/
+
+function projects_edit_block_view($block_name = '') {
+    if (drupal_is_front_page()) 
+        return NULL;
+    
+    $form = drupal_get_form('projects_edit_form');
+    $block = array('content' => $form);
+    return $block;
+}
+
+function projects_edit_form($form, &$form_state) {
+
+    $id = arg(1);
+    
+    $result = db_query("SELECT * FROM {projects} WHERE pid = $id ");
+    $record = $result->fetchObject();
+    
+    $form['name'] = array(
+        '#title' => t('Name'),
+        '#type' => 'textfield',
+        '#name' => t('name'),
+        '#value' => t($record->name),
+        '#size' => 40,
+        '#maxlength' => 120,
+        '#required' => TRUE,
+    );
+
+    $form['description'] = array(
+        '#title' => t('Description'),
+        '#type' => 'textarea',
+        '#rows' => 10,
+        '#columns' => 40,
+        '#name' => t('description'),
+        '#value' => t($record->description),
+        '#required' => TRUE,
+    );
+
+    $form['pid'] = array(
+        '#type' => 'hidden',
+        '#value' => t($id),
+    );
+
+    $form['status'] = array(
+        '#title' => t('Status'),
+        '#type' => 'checkbox',
+        '#name' => t('status'),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Save'),
+    );
+    
+    $form['#submit'][] = 'projects_edit_submit_handler';
+    return $form;
+}
+
+function projects_edit_submit_handler($form, &$form_state) {
+    $error = 1;
+    if (!isset($form_state['values']['name']) || !isset($form_state['values']['name'])) {
+        $error = 0;
+    }
+
+    if ($error) {
+        $id = $form_state['values']['pid'];
+        $name = $form_state['input']['name'];
+        $description = $form_state['input']['description'];
+        $data = array('name' => $name, 'description' => $description);
+        $query = db_update('projects');
+        $query->fields($data);
+        $query->condition('pid', $id, '=');
+        $query->execute();
+        drupal_set_message('Registro ha sido actualizado');
+    }
+}
+
+/*
+ * action delete 
+*/
+function projects_delete() {
+    $id = arg(1);
+    $query = db_delete('projects');
+    $query->condition('pid', $id, '=');
+    $query->execute();
+    drupal_set_message('Registro ha sido borrado');
+    drupal_goto("projects");
+}

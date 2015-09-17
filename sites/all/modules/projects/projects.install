@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Schema definitions install/update/uninstall hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function projects_schema() {
+    $schema['projects'] = array(
+        'description' => 'En esta tabla se almacenara la información de los proyectos.',
+        'fields' => array(
+            'pid' => array(
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'description' => array(
+                'type' => 'text',
+            ),
+            'status' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'default' => '1',
+            ),
+        ),
+        'primary key' => array('pid'),
+    );
+    return $schema;
+}
+
+function projects_update() {
+    db_create_table('projects', drupal_get_schema_unprocessed('projects', 'projects'));
+    return 'Add the projects table for the projects module.';
+}
