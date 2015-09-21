@@ -240,3 +240,28 @@ button:hover, input[type="submit"]:hover
   line-height: 1.3em;
   list-style-type: none;
 }
+
+td
+{
+  background-color: #56ABDD;
+  color: white;
+  line-height: 1.1em;
+  border-right: thin solid #FCD300;
+  padding: 0.4em;
+  margin-bottom: 10px;
+}
+
+td a
+{
+  color: white;
+}
+
+td a:hover
+{
+  color: #E3462D;
+}
+
+td:last-child
+{
+  border:none;
+}
