@@ -1,5 +1,5 @@
 <?php
-
+ 
 /**
 * Implements hook_menu().
 */
@@ -43,7 +43,7 @@ function projects_menu() {
         'weight' => -14,
         
     );
-
+    
     return $items;
 }
 
@@ -84,6 +84,10 @@ function projects_permission() {
 */
 
 function projects_sort_with_pager_content() {
+    
+    drupal_add_js(drupal_get_path('module', 'projects') . '/js/jquery.dataTables.js');
+    drupal_add_js(drupal_get_path('module', 'projects') . '/js/projects.js');
+    
     $header = array(
         array('data' => t('Project id'), 'field' => 'pid', 'sort' => 'asc'),
         array('data' => t('Name'), 'field' => 'name'),
@@ -102,13 +106,15 @@ function projects_sort_with_pager_content() {
     $rows = array();
     foreach ($result as $rw) {
         $status = ($rw->status == 1)?'Activo':'Inactivo';
-        $rows[] = array($rw->pid, $rw->name,$rw->description, $status, "<a href = 'projects/$rw->pid/edit'>".t('Edit')."</a> | <a href = 'projects/$rw->pid/delete' onclick = 'return confirm(\"Esta seguro?\")'>".t('Delete')."</a>");
+        //$rows[] = array($rw->pid, $rw->name,$rw->description, $status, "<a href = 'projects/$rw->pid/edit'>".t('Edit')."</a> | <a href = 'projects/$rw->pid/delete' onclick = 'return confirm(\"Esta seguro?\")'>".t('Delete')."</a>");
+        $rows[] = array($rw->pid, $rw->name,$rw->description, $status, "<a href = 'users_projects/$rw->pid/view'>".t('View')."</a> | <a href = 'projects/$rw->pid/delete' onclick = 'return confirm(\"Esta seguro?\")'>".t('Delete')."</a>");
+        
     }
     
     $output = "";
     $output .= '<a href ="projects/add">'.t('New project').'</a>';
     if (!empty($rows)) {
-        $output .= theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('pid' => 'sort-table')));
+        $output .= theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id'=>'tbProjects','pid' => 'sort-table')));
         $output .= theme('pager');
     } else {
         $output .= t("No results found.");
