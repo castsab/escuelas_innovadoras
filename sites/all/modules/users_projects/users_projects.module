@@ -1,0 +1,50 @@
+<?php
+ 
+/**
+* Implements hook_menu().
+*/
+
+function users_projects_menu() {
+    
+     $items['users_projects/%/view'] = array(
+        'title' => t('Usuarios por proyecto'),
+        'description' => 'Listado de usuarios por proyecto.',
+        'page callback' => 'users_projects_page',
+        'page argument' => array(3),
+        'access arguments' => array('access_users_projects_page'),
+        'weight' => -14,
+        
+    );
+    
+    return $items;
+}
+
+/**
+* Implements hook_permission().
+*/
+
+function users_projects_permission() {
+    return array(
+        'access_users_projects_page' => array(
+            'title' => 'Listado de usuarios por proyecto',
+            'description' => 'Permitir la asociación de usuarios por proyecto.',
+            'restrict access' => TRUE,
+        ),
+    );
+}
+
+/**
+* hook_theme()
+*/
+function users_projects_theme() {
+    return array('users_projects_page' => array('template' => 'users-projects-page'));
+}
+
+function users_projects_page() {
+    $id = arg(1);
+    $path = Drupal_get_path('module', 'users_projects');
+    Drupal_add_js($path . '/js/angular.js');
+    Drupal_add_js($path . '/js/usersProjectsController.js');
+    return theme('users_projects_page');
+}
+

@@ -1,0 +1,10 @@
+name = "Usuarios por proyecto"
+description = "Este módulo permite la asociación de los usuario con los proyectos de aprendizaje."
+core = 7.x
+package = "Other"
+version = "7.x-1.0"
+core = "7.x"
+project = "users_projects"
+dependencies[] = projects
+
+
