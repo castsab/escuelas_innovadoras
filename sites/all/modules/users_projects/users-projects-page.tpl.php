@@ -13,7 +13,7 @@
             <span >Apellido:</span> 
             <input ng-model="lastname" disabled="disabled">
             <span >Correo:</span> 
-            <input type="text" name="email" ng-model="email" ng-required="requiredEmail">
+            <input name="email" ng-model="email" >
             <button id="btnAddUsersProject" ng-click="add();">+</button>
         </div> 
 
