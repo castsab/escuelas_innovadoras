@@ -125,7 +125,11 @@
 /* The secondary menu (login, etc.) */
 .header__secondary-menu {
   float: right; /* LTR */
-  background-color: white;
+  background-color: #FBC700;
+  padding: 3px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
 
 /* Wrapper for any blocks placed in the header region. */
@@ -475,6 +479,7 @@ span.field-label {
   /*list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHBAMAAAA2fErgAAAAD1BMVEX///+/v7+Li4sAAADAwMBFvsw8AAAAAXRSTlMAQObYZgAAAB1JREFUCFtjYAADYwMGBmYVZSDhKAwkFJWhYiAAAB2+Aa/9ugeaAAAAAElFTkSuQmCC');
   *list-style-image: url('../../images/menu-leaf.png');*/
   list-style-type: none;
+  margin-bottom: 10px;
 }
 .menu__item.is-expanded {
   list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHAQMAAAD+nMWQAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAABJJREFUeJxj+MdQw2DBIMAABgAUsAHD3c3BpwAAAABJRU5ErkJggg==');

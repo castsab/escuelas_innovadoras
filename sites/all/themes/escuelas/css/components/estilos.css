@@ -82,6 +82,7 @@ body
  #page
  {
  	background-color: white;
+  padding-bottom: 10px;
  }
 
 a
@@ -103,11 +104,18 @@ a:hover
 .region-sidebar-first
 {
 	background-color: #56ABDD;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  margin-top: 10px;
 }
 
 .region-sidebar-second
 {
-	padding-top: 10px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  margin-top: 10px;
 }
 
 #block-user-login
@@ -144,6 +152,7 @@ button:hover, input[type="submit"]:hover
   	/* reset styles (optional): */
   	list-style: none;
   	margin: 5px 0px 0px -20px;
+    border-bottom: solid 1px #2B356A;
 }
 
 .icoInvitar
@@ -153,6 +162,7 @@ button:hover, input[type="submit"]:hover
   	/* reset styles (optional): */
   	list-style: none;
   	margin: 5px 0px 0px -20px;
+    border-bottom: solid 1px #2B356A;
 }
 
 .icoNuevoPro
@@ -162,6 +172,7 @@ button:hover, input[type="submit"]:hover
   	/* reset styles (optional): */
   	list-style: none;
   	margin: 5px 0px 0px -20px;
+    border-bottom: solid 1px #2B356A;
 }
 
 .icoAyuda
@@ -171,6 +182,7 @@ button:hover, input[type="submit"]:hover
   	/* reset styles (optional): */
   	list-style: none;
   	margin: 5px 0px 0px -20px;
+    border-bottom: solid 1px #2B356A;
 }
 
 .icoCerrar
@@ -180,4 +192,51 @@ button:hover, input[type="submit"]:hover
   	/* reset styles (optional): */
   	list-style: none;
   	margin: 5px 0px 0px -20px;
+}
+
+#block-block-1
+{
+  background-color: #FBC700;
+  padding: 10px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.bloqueUsuario
+{
+  background-color: #FCD300;
+  height: auto;
+  min-height: 110px;
+  padding:10px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.divUsuario
+{
+  width: 110px;
+  height: 110px;
+  float: left;
+}
+
+.divUsuario2
+{
+  width: 90px;
+  height: 110px;
+  float: left;
+  font-size: 0.7em;
+}
+
+.divUsuario2 ul
+{
+  padding: 0;
+  margin:40px 0px 0px 10px; 
+}
+
+.divUsuario2 ul li
+{
+  line-height: 1.3em;
+  list-style-type: none;
 }
