@@ -676,7 +676,7 @@ form table ul {
 tr.even,
 tr.odd {
   background-color: #eee;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 10px solid #fff;
   padding: 0.1em 0.6em;
 }
 tr.even {
@@ -694,6 +694,8 @@ tr.even {
 td.active {
   background-color: #2B356A;
   text-align: center;
+  font-style: italic;
+  font-size: 1.5em;
 }
 
 /* Center checkboxes inside table cell. */

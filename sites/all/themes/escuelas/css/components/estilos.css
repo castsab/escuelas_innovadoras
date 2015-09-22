@@ -248,7 +248,7 @@ td
   line-height: 1.1em;
   border-right: thin solid #FCD300;
   padding: 0.4em;
-  
+  margin-bottom: 10px;
 }
 
 td a
@@ -264,12 +264,4 @@ td a:hover
 td:last-child
 {
   border:none;
-}
-
-table
-{
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  margin-bottom: 10px;
 }
