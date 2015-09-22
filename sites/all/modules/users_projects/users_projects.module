@@ -1,31 +1,42 @@
 <?php
- 
-/**
-* Implements hook_menu().
-*/
 
+/**
+ * Implements hook_menu().
+ */
 function users_projects_menu() {
-    
-     $items['users_projects/%/view'] = array(
+
+    $items['users_projects/%/view'] = array(
         'title' => t('Usuarios por proyecto'),
         'description' => 'Listado de usuarios por proyecto.',
-        'page callback' => 'users_projects_page',
+        'page callback' => 'users_projects_view',
         'page argument' => array(3),
-        'access arguments' => array('access_users_projects_page'),
+        'access arguments' => array('access_users_projects_view'),
         'weight' => -14,
-        
     );
-    
+
+    $items['users_projects/listUsersByProject'] = array(
+        'access arguments' => array('user_access'),
+        'page callback' => 'listUsersByProject',
+        'page arguments' => array(2),
+        'delivery callback' => 'drupal_json_output'
+    );
+
+    $items['users_projects/addUserByProject'] = array(
+        'access arguments' => array('user_access'),
+        'page callback' => 'addUserByProject',
+        'page arguments' => array(2),
+        'delivery callback' => 'drupal_json_output'
+    );
+
     return $items;
 }
 
 /**
-* Implements hook_permission().
-*/
-
+ * Implements hook_permission().
+ */
 function users_projects_permission() {
     return array(
-        'access_users_projects_page' => array(
+        'access_users_projects_view' => array(
             'title' => 'Listado de usuarios por proyecto',
             'description' => 'Permitir la asociación de usuarios por proyecto.',
             'restrict access' => TRUE,
@@ -34,17 +45,44 @@ function users_projects_permission() {
 }
 
 /**
-* hook_theme()
-*/
+ * hook_theme()
+ */
 function users_projects_theme() {
-    return array('users_projects_page' => array('template' => 'users-projects-page'));
+    return array('users_projects_view' => array('template' => 'users_projects_view','variables' => array('pid'=>null)));
 }
 
-function users_projects_page() {
+function users_projects_view() {
     $id = arg(1);
     $path = Drupal_get_path('module', 'users_projects');
     Drupal_add_js($path . '/js/angular.js');
     Drupal_add_js($path . '/js/usersProjectsController.js');
-    return theme('users_projects_page');
+    return theme('users_projects_view',array('pid'=>$id));
 }
 
+function listUsersByProject() {
+    $dataObject = json_decode(file_get_contents("php://input"));
+    try {
+        $result = db_query("select fn.field_nombres_value As name,fa.field_apellidos_value As lastname, u.mail As email from ei_users_projects up 
+                            inner JOIN ei_users u on up.uid=u.uid inner JOIN ei_projects p on up.pid=p.pid
+                            left JOIN ei_field_data_field_nombres fn on up.uid=fn.entity_id
+                            left JOIN ei_field_data_field_apellidos fa on up.uid=fa.entity_id where up.pid=$dataObject->pid ");
+        $record = $result->fetchAll();
+        return array('response' => true, 'arrayDatos' => $record);
+    } catch (PDOException $e) {
+        return array('response' => false,'message'=>$e->getMessage());
+    }
+}
+
+function addUserByProject() {
+    $dataObject = json_decode(file_get_contents("php://input"));
+    try {
+        $result = db_query("SELECT * FROM ei_users WHERE mail = '".$dataObject->email."' ");
+        $record = $result->fetchObject();
+        $query = db_insert('users_projects');
+        $query->fields(array('uid' => $record->uid, 'pid' => 1));
+        $query->execute();
+        return array('response' => true);
+    } catch (PDOException $e) {
+        return array('response' => false,'message'=>$e->getMessage());
+    }
+}

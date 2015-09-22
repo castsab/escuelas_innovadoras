@@ -1,22 +1,27 @@
 var app = "";
 
-app = angular.module('UsersProjects', ['ngResource']);
-// Factory for the ngResource service.
-app.factory('Node', function($resource) {
-    return $resource(Drupal.settings.basePath + 'api/node/:param', {}, {
-      'search' : {method : 'GET', isArray : true}
+app = angular.module('UsersProjects', []);
+
+app.controller('usersProjectsController', function($scope, $http) {
+    var pid = document.getElementById('pid').value;
+    var url = Drupal.settings.basePath + 'users_projects/listUsersByProject';
+    $http.post(url,{'pid': pid}).success(function(data) {
+        if (data.response == true)
+            $scope.users = data.arrayDatos;
+    }).error(function(data, status, headers, config) {
+        alert('<< Se produjo un error, favor intente más tarde. >>');
     });
-})
 
-app.controller('usersProjectsController', function($scope,$http) {
-    $scope.users = [
-        {'name': 'prueba', 'lastname': 'test'}
-    ];
-
-    $scope.add = function() {
-        $scope.nodes = Node.search({name: $scope.name,'lastname': $scope.lastname,'email': $scope.email});
+    $scope.addUserByProject = function() {
+        var url = Drupal.settings.basePath + 'users_projects/addUserByProject';
+        $http.post(url, {'email': $scope.email}).success(function(data) {
+            if (data.response == true)
+                alert('<< Registro almacenado correctamente. >>');
+            else
+                alert('<< Problemas para almacenar el registro. >>');
+        }).error(function(data, status, headers, config) {
+            alert('<< Se produjo un error, favor intente más tarde. >>');
+        });
     };
 });
-
-
 
