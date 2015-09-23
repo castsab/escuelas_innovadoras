@@ -27,6 +27,13 @@ function users_projects_menu() {
         'page arguments' => array(2),
         'delivery callback' => 'drupal_json_output'
     );
+    
+    $items['users_projects/removeUserByProject'] = array(
+        'access arguments' => array('user_access'),
+        'page callback' => 'removeUserByProject',
+        'page arguments' => array(2),
+        'delivery callback' => 'drupal_json_output'
+    );
 
     return $items;
 }
@@ -62,7 +69,8 @@ function users_projects_view() {
 function listUsersByProject() {
     $dataObject = json_decode(file_get_contents("php://input"));
     try {
-        $result = db_query("select fn.field_nombres_value As name,fa.field_apellidos_value As lastname, u.mail As email from ei_users_projects up 
+        $result = db_query("select fn.field_nombres_value As name,fa.field_apellidos_value As lastname, u.mail As email, u.uid As uid  
+                            from ei_users_projects up 
                             inner JOIN ei_users u on up.uid=u.uid inner JOIN ei_projects p on up.pid=p.pid
                             left JOIN ei_field_data_field_nombres fn on up.uid=fn.entity_id
                             left JOIN ei_field_data_field_apellidos fa on up.uid=fa.entity_id where up.pid=$dataObject->pid ");
@@ -80,6 +88,29 @@ function addUserByProject() {
         $record = $result->fetchObject();
         $query = db_insert('users_projects');
         $query->fields(array('uid' => $record->uid, 'pid' => 1));
+        $query->execute();
+        $arrayUser = getUser($record->uid);
+        return array('response' => true,'arrayDatos'=>$arrayUser);
+    } catch (PDOException $e) {
+        return array('response' => false,'message'=>$e->getMessage());
+    }
+}
+
+function getUser($id_user){
+    $result = db_query("select fn.field_nombres_value As name,fa.field_apellidos_value As lastname, u.mail As email,u.uid As uid 
+                        from ei_users u 
+                        left JOIN ei_field_data_field_nombres fn on u.uid=fn.entity_id
+                        left JOIN ei_field_data_field_apellidos fa on u.uid=fa.entity_id where u.uid=$id_user ");
+    $record = $result->fetchObject();
+    return array('name'=>$record->name,'lastname'=>$record->lastname,'email'=>$record->email,'uid'=>$record->uid);
+}
+
+function removeUserByProject() {
+    $dataObject = json_decode(file_get_contents("php://input"));
+    try {
+        $cond = db_and()->condition('uid', $dataObject->uid)->condition('pid', $dataObject->pid);
+        $query = db_delete('users_projects');
+        $query->condition($cond);
         $query->execute();
         return array('response' => true);
     } catch (PDOException $e) {

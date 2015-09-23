@@ -26,7 +26,7 @@
                 <td>{{arrayUsers.lastname}}</td>
                 <td>{{arrayUsers.email}}</td>
                 <th>
-                    <a onclick="">x</a>
+                    <a style="cursor: pointer" ng-click="removeUserByProject($index,arrayUsers.uid);">x</a>
                 </th>
             </tr>
         </table>
