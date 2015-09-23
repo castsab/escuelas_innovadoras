@@ -84,13 +84,23 @@ function listUsersByProject() {
 function addUserByProject() {
     $dataObject = json_decode(file_get_contents("php://input"));
     try {
-        $result = db_query("SELECT * FROM ei_users WHERE mail = '".$dataObject->email."' ");
-        $record = $result->fetchObject();
-        $query = db_insert('users_projects');
-        $query->fields(array('uid' => $record->uid, 'pid' => 1));
-        $query->execute();
-        $arrayUser = getUser($record->uid);
-        return array('response' => true,'arrayDatos'=>$arrayUser);
+        $valid = getValidExistsUser($dataObject->email);
+        if($valid == false){
+            $result = db_query("SELECT * FROM ei_users WHERE mail = '".$dataObject->email."' ");
+            $record = $result->fetchObject();
+            $valid = getValidExistsUserProject($record->uid,$dataObject->pid);
+            if($valid == true){
+                $query = db_insert('users_projects');
+                $query->fields(array('uid' => $record->uid, 'pid' => $dataObject->pid));
+                $query->execute();
+                $arrayUser = getUser($record->uid);
+                return array('response' => true,'arrayDatos'=>$arrayUser);
+            }else{
+                return array('response' => 2);
+            }
+        }else{
+            return array('response' => 3);
+        }
     } catch (PDOException $e) {
         return array('response' => false,'message'=>$e->getMessage());
     }
@@ -116,4 +126,22 @@ function removeUserByProject() {
     } catch (PDOException $e) {
         return array('response' => false,'message'=>$e->getMessage());
     }
+}
+
+function getValidExistsUserProject($id_user,$id_project){
+    $result = db_query("select * from ei_users_projects where uid=$id_user And pid=$id_project ");
+    $record = $result->fetchAll();
+    if(empty($record))
+        return true;
+    else
+        return false;
+}
+
+function getValidExistsUser($email){
+    $result = db_query("SELECT * FROM ei_users WHERE mail = '".$email."' ");
+    $record = $result->fetchAll();
+    if(empty($record))
+        return true;
+    else
+        return false;
 }

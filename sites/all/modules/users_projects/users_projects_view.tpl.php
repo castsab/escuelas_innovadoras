@@ -8,10 +8,17 @@
     <body ng-controller="usersProjectsController">
 
         <div >
-            <input type="hidden" id="pid" name="pid" value="<?php echo $pid;?>" >
-            <span >Correo:</span> 
-            <input name="email" ng-model="email" >
-            <button id="btnAddUsersByProject" ng-click="addUserByProject();" ng-required="true">Adicionar</button>
+            
+            <div ng-show="statusAlert" class="messages--{{typeAlert}} messages status ng-binding">{{msgAlert}}</div>
+            
+            <form name="form">
+                <input type="hidden" id="pid" name="pid" value="<?php echo $pid;?>" >
+                <span >Correo:</span> 
+                <input type="email" name="email" ng-model="email" required="true" placeholder="example@email.com">
+                <span ng-show="!form.$pristine && form.email.$error.required">Correo es requerido.</span>
+                <span ng-show="!form.$pristine && form.email.$error.email">Por favor ingrese un correo valido.</span>
+                <button id="btnAddUsersByProject" ng-click="addUserByProject();" ng-disabled="!form.$valid">Adicionar</button>
+            </form>
         </div> 
 
         <table border="1">
