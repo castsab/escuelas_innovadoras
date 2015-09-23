@@ -86,7 +86,7 @@ function addUserByProject() {
     try {
         $valid = getValidExistsUser($dataObject->email);
         if($valid == false){
-            $result = db_query("SELECT * FROM ei_users WHERE mail = '".$dataObject->email."' ");
+            $result = db_query("SELECT * FROM ei_users WHERE name = '".$dataObject->email."' ");
             $record = $result->fetchObject();
             $valid = getValidExistsUserProject($record->uid,$dataObject->pid);
             if($valid == true){
@@ -138,7 +138,7 @@ function getValidExistsUserProject($id_user,$id_project){
 }
 
 function getValidExistsUser($email){
-    $result = db_query("SELECT * FROM ei_users WHERE mail = '".$email."' ");
+    $result = db_query("SELECT * FROM ei_users WHERE name = '".$email."' ");
     $record = $result->fetchAll();
     if(empty($record))
         return true;

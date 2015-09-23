@@ -31,7 +31,7 @@ app.controller('usersProjectsController', function($scope, $http) {
                     if(data.response == 3){
                         $scope.typeAlert = 'warning';
                         $scope.statusAlert = true;
-                        $scope.msgAlert = 'Este correo no esta registrado.';
+                        $scope.msgAlert = 'Este usuario no esta registrado.';
                         $scope.email = "";
                     }else{
                         alert('<< Problemas para almacenar el registro. >>');
