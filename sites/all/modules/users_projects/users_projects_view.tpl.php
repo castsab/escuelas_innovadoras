@@ -32,9 +32,9 @@
                 <td>{{arrayUsers.name}}</td>
                 <td>{{arrayUsers.lastname}}</td>
                 <td>{{arrayUsers.email}}</td>
-                <th>
-                    <a style="cursor: pointer" ng-click="removeUserByProject($index,arrayUsers.uid);">x</a>
-                </th>
+                <td>
+                    <a style="cursor: pointer" ng-click="removeUserByProject($index,arrayUsers.uid);">Borrar</a>
+                </td>
             </tr>
         </table>
 
