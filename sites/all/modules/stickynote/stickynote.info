@@ -1,0 +1,20 @@
+name = Sticky Note
+description = "Añade la posibilidad de agregar notas"
+core = 7.x
+files[] = stickynote.controller.inc
+files[] = includes/stickynote.admin.inc
+files[] = includes/stickynote.block.inc
+stylesheets[all][] = css/stickynote.css
+
+; Information added by drupal.org packaging
+version = "7.x-1.0"
+core = "7.x"
+project = "stickynote"
+package = "Other"
+
+; Information added by drupal.org packaging
+version = "7.x-1.2"
+core = "7.x"
+project = "stickynote"
+datestamp = "1366447521"
+
