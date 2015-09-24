@@ -50,7 +50,7 @@
 
   </header>
 
-  <div id="main">
+  <div id="main" class="fondoHome">
 
     <div id="content" class="column" role="main">
       <?php print render($page['highlighted']); ?>
@@ -113,7 +113,11 @@
 
   </div>
 
-  <?php print render($page['footer']); ?>
+  <!-- <div id="footer" class="clear"> -->
+
+   <?php print render($page['footer']); ?>
+
+   <!-- </div> -->
 
 </div>
 
