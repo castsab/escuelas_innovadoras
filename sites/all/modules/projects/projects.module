@@ -84,7 +84,7 @@ function projects_permission() {
 */
 
 function projects_sort_with_pager_content() {
-    
+    global $user;
     drupal_add_js(drupal_get_path('module', 'projects') . '/js/jquery.dataTables.js');
     drupal_add_js(drupal_get_path('module', 'projects') . '/js/projects.js');
     
@@ -98,7 +98,12 @@ function projects_sort_with_pager_content() {
 
     $query = db_select('projects', 'p');
     $query->fields('p', array('pid', 'name', 'description', 'status'));
-
+    
+    /*-------------*/
+    //Solemente se muestrar mis proyectos asociados
+    $query->innerJoin('users_projects', 'up', 'p.pid=up.pid And up.uid='.$user->uid.'');
+    /*-------------*/
+    
     $table_sort = $query->extend('TableSort')->orderByHeader($header); // Add order by headers.
     $pager = $table_sort->extend('PagerDefault')->limit(5);
     $result = $pager->execute();
@@ -172,6 +177,7 @@ function projects_add_table_form($form, &$form_state){
 }
 
 function projects_add_submit_handler($form, &$form_state) {
+    global $user;
     $error = 1;
     if (!isset($form_state['values']['name']) || !isset($form_state['values']['name']))
         $error = 0;
@@ -181,7 +187,15 @@ function projects_add_submit_handler($form, &$form_state) {
         $description = $form_state['values']['description'];
         $query = db_insert('projects');
         $query->fields(array('name' => $name,'description' => $description,));
+        $pid = $query->execute();
+        
+        /*---------*/
+        //Se asocia el proyecto a mi usuario
+        $query = db_insert('users_projects');
+        $query->fields(array('uid' => $user->uid, 'pid' => $pid));
         $query->execute();
+        /*---------*/
+        
         drupal_set_message(t('Record has been added'));
     }
 }

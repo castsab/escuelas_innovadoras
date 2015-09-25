@@ -1,0 +1,164 @@
+<?php
+
+function links_init(){
+    
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function links_menu() {
+
+    $items['links/view'] = array(
+        'title' => t('Enlaces'),
+        'description' => 'Listado de enlaces por proyecto.',
+        'page callback' => 'links_page_view',
+        'page argument' => array(1),
+        'access arguments' => array('access_links_view'),
+        'type' => MENU_CALLBACK,
+    );
+
+    $items['links/listLinks'] = array(
+        'access arguments' => array('access_links_list'),
+        'page callback' => 'listLinks',
+        'page arguments' => array(2),
+        'delivery callback' => 'drupal_json_output'
+    );
+
+    $items['links/addLink'] = array(
+        'access arguments' => array('access_links_add'),
+        'page callback' => 'addLink',
+        'page arguments' => array(2),
+        'delivery callback' => 'drupal_json_output'
+    );
+
+    $items['links/removeLink'] = array(
+        'access arguments' => array('access_links_delete'),
+        'page callback' => 'removeLink',
+        'page arguments' => array(2),
+        'delivery callback' => 'drupal_json_output'
+    );
+
+    return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function links_permission() {
+    return array(
+        'access_links_view' => array(
+            'title' => 'Listado de enlaces por proyecto',
+            'description' => 'Permite visualizar el formulario para la asociación de los enlaces.',
+        ),
+        'access_links_list' => array(
+            'title' => 'Listado de enlaces por proyecto',
+            'description' => 'Permite vizualizar el listado de enlaces por proyecto.',
+        ),
+        'access_links_add' => array(
+            'title' => 'Listado de enlaces por proyecto',
+            'description' => 'Permitir adicionar enlaces al proyecto.',
+        ),
+        'access_links_delete' => array(
+            'title' => 'Listado de enlaces por proyecto',
+            'description' => 'Permitir borrar enlaces del proyecto.',
+        ),
+    );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function links_block_info() {
+    $blocks = array();
+
+    $blocks['links_block'] = array(
+        'info' => t('Links block'),
+    );
+
+    return $blocks;
+}
+
+/**
+ * hook_theme()
+ */
+function links_theme() {
+    return array('links_view' => array('template' => 'links_view', 'variables' => array('pid' => null)));
+}
+
+function links_page_view() {
+   $path = Drupal_get_path('module', 'links');
+   Drupal_add_js($path . '/js/angular.js');
+   Drupal_add_js($path . '/js/linksController.js');  
+}
+
+function listLinks() {
+    $dataObject = json_decode(file_get_contents("php://input"));
+    try {
+        $result = db_query("select l.lid As lid,l.pid As pid,l.title As title,l.description As description,l.link As link,l.status As status
+                            from ei_links l where l.pid=1 ");
+        $record = $result->fetchAll();
+        return array('response' => true, 'arrayDatos' => $record);
+    } catch (PDOException $e) {
+        return array('response' => false, 'message' => $e->getMessage());
+    }
+}
+
+function addLink() {
+    $dataObject = json_decode(file_get_contents("php://input"));
+    try {
+        $query = db_insert('links');
+        $query->fields(array('pid' => $dataObject->pid,
+            'title' => $dataObject->title,
+            'description' => $dataObject->description,
+            'link' => $dataObject->link,
+            'status' => $dataObject->status));
+        $lid = $query->execute();
+        $arrayLink = getLink($lid);
+        return array('response' => true, 'arrayDatos' => $arrayLink);
+    } catch (PDOException $e) {
+        return array('response' => false, 'message' => $e->getMessage());
+    }
+}
+
+function getLink($id_link) {
+    $result = db_query("select l.lid As lid,l.pid As pid,l.title As title,l.description As description,l.link As link,l.status As status
+                        from ei_links l where l.lid=$id_link ");
+    $record = $result->fetchObject();
+    return array('lid' => $record->lid, 'pid' => $record->pid, 'title' => $record->title, 'description' => $record->description, 'link' => $record->link, 'status' => $record->status);
+}
+
+function removeLink() {
+    $dataObject = json_decode(file_get_contents("php://input"));
+    try {
+        $cond = db_and()->condition('lid', $dataObject->lid);
+        $query = db_delete('links');
+        $query->condition($cond);
+        $query->execute();
+        return array('response' => true);
+    } catch (PDOException $e) {
+        return array('response' => false, 'message' => $e->getMessage());
+    }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function links_block_view($delta = '') {
+    //Drupal_add_js(drupal_get_path('module', 'links') . '/js/angular.js');
+    //Drupal_add_js(drupal_get_path('module', 'links') . '/js/linksController.js');
+    
+    $block = array();
+    module_load_include('inc', 'links', 'includes/links.block');
+    $block['subject'] = t('links');
+    $block['content'] = links_block_contents();
+    
+    
+    
+    return $block;
+}
+
+
+
+

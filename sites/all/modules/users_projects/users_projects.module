@@ -15,21 +15,21 @@ function users_projects_menu() {
     );
 
     $items['users_projects/listUsersByProject'] = array(
-        'access arguments' => array('user_access'),
+        'access arguments' => array('access_users_projects_list'),
         'page callback' => 'listUsersByProject',
         'page arguments' => array(2),
         'delivery callback' => 'drupal_json_output'
     );
 
     $items['users_projects/addUserByProject'] = array(
-        'access arguments' => array('user_access'),
+        'access arguments' => array('access_users_projects_add'),
         'page callback' => 'addUserByProject',
         'page arguments' => array(2),
         'delivery callback' => 'drupal_json_output'
     );
     
     $items['users_projects/removeUserByProject'] = array(
-        'access arguments' => array('user_access'),
+        'access arguments' => array('access_users_projects_delete'),
         'page callback' => 'removeUserByProject',
         'page arguments' => array(2),
         'delivery callback' => 'drupal_json_output'
@@ -45,7 +45,22 @@ function users_projects_permission() {
     return array(
         'access_users_projects_view' => array(
             'title' => 'Listado de usuarios por proyecto',
-            'description' => 'Permitir la asociación de usuarios por proyecto.',
+            'description' => 'Permite visualizar el formulario para la asociación de los usuarios.',
+            'restrict access' => TRUE,
+        ),
+        'access_users_projects_list' => array(
+            'title' => 'Listado de usuarios por proyecto',
+            'description' => 'Permite vizualizar el listado de usuarios por proyecto.',
+            'restrict access' => TRUE,
+        ),
+        'access_users_projects_add' => array(
+            'title' => 'Listado de usuarios por proyecto',
+            'description' => 'Permitir adicionar el usuario (Profesor o Estudiante) al proyecto.',
+            'restrict access' => TRUE,
+        ),
+        'access_users_projects_delete' => array(
+            'title' => 'Listado de usuarios por proyecto',
+            'description' => 'Permitir borrar el usuarios del proyecto.',
             'restrict access' => TRUE,
         ),
     );
@@ -144,4 +159,8 @@ function getValidExistsUser($email){
         return true;
     else
         return false;
+}
+
+function hook_init() {
+    
 }

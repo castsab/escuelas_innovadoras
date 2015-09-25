@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Schema definitions install/update/uninstall hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function links_schema() {
+    $schema['links'] = array(
+        'description' => 'En esta tabla se almacenara los enlaces de los proyectos.',
+        'fields' => array(
+            'lid' => array(
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'pid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'title' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+            ),
+            'description' => array(
+                'type' => 'text',
+            ),
+            'link' => array(
+                'type' => 'text',
+                'not null' => TRUE,
+            ),
+            'status' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'default' => '1',
+            ),
+        ),
+        'primary key' => array('lid'),
+    );
+    return $schema;
+}
+
+function links_update() {
+    db_create_table('links', drupal_get_schema_unprocessed('links', 'links'));
+    return 'Add the links table for the links module.';
+}
