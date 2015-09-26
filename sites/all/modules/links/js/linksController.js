@@ -1,17 +1,16 @@
-alert('ttttttt');
 
 var app = "";
 
 app = angular.module('links', []);
 
 app.controller('linksController', function($scope, $http) {
-    alert('fffffffffffffffffffffffff');
+    
     var pid = document.getElementById('pid').value;
     
     var url = Drupal.settings.basePath + 'links/listLinks';
     $http.post(url,{'pid': pid}).success(function(data) {
         if (data.response == true)
-            $scope.users = data.arrayDatos;
+            $scope.links = data.arrayDatos;
     }).error(function(data, status, headers, config) {
         alert('<< Se produjo un error, favor intente más tarde. >>');
     });
@@ -22,36 +21,26 @@ app.controller('linksController', function($scope, $http) {
         var data = {
             'pid':pid,
             'title': $scope.title,
-            'descripction':$scope.descripction,
+            'description':$scope.description,
             'link':$scope.link
         };
         
         $http.post(url, data).success(function(data) {
             if (data.response == true){
-                $scope.users.push(data.arrayDatos);
+                $scope.links.push(data.arrayDatos);
                 $scope.typeAlert = 'status';
                 $scope.statusAlert = true;
                 $scope.msgAlert = 'Registro almacenado correctamente.';
-                $scope.email = "";
+                $scope.title = "";
+                $scope.description = "";
+                $scope.link = "";
             }else{
-                if(data.response == 2){
-                    $scope.typeAlert = 'warning';
-                    $scope.statusAlert = true;
-                    $scope.msgAlert = 'Este registro ya fue adicionado.';
-                    $scope.email = "";
-                }else{
-                    if(data.response == 3){
-                        $scope.typeAlert = 'warning';
-                        $scope.statusAlert = true;
-                        $scope.msgAlert = 'Este usuario no esta registrado.';
-                        $scope.email = "";
-                    }else{
-                        $scope.typeAlert = 'warning';
-                        $scope.statusAlert = true;
-                        $scope.msgAlert = 'Usted no tiene permisos para esta acción.';
-                        $scope.email = "";
-                    }
-                }
+                $scope.typeAlert = 'warning';
+                $scope.statusAlert = true;
+                $scope.msgAlert = 'Usted no tiene permisos para esta acción.';
+                $scope.title = "";
+                $scope.description = "";
+                $scope.link = "";
             }
         }).error(function(data, status, headers, config) {
             alert('<< Se produjo un error, favor intente más tarde. >>');
@@ -62,7 +51,7 @@ app.controller('linksController', function($scope, $http) {
         var url = Drupal.settings.basePath + 'links/removeLink';
         $http.post(url, {'lid': lid}).success(function(data) {
             if (data.response == true){
-                $scope.users.splice(index, 1);
+                $scope.links.splice(index, 1);
                 $scope.typeAlert = 'status';
                 $scope.statusAlert = true;
                 $scope.msgAlert = 'Registro borrado correctamente.';
