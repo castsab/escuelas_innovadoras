@@ -14,7 +14,7 @@ function theme_stickynote_list($variables) {
   $notes = NULL;
   $header = array();
   $header[] = t('Note');
-  $header[] = t('Author');
+  // $header[] = t('Author');
   $header[] = t('Edit');
   $header[] = t('Delete');
   $header[] = t('Date');
@@ -33,10 +33,10 @@ function theme_stickynote_list($variables) {
               'data' => nl2br(filter_xss($stickynote->note)),
               'class' => $note_class,
             ),
-            'author' => array(
-              'data' => l(t($account->name), 'user/' . $stickynote->uid),
-              'class' => $note_class,
-            ),
+            // 'author' => array(
+            //   'data' => l(t($account->name), 'user/' . $stickynote->uid),
+            //   'class' => $note_class,
+            // ),
             'edit' => array(
               'data' => l(t('edit'), 'stickynote/' . $stickynote->snid . '/edit', array('attributes' => array('class' => array('use-ajax')))),
               'class' => $note_class,

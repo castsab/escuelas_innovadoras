@@ -676,7 +676,7 @@ form table ul {
 tr.even,
 tr.odd {
   background-color: #eee;
-  border-bottom: 10px solid #fff;
+  border-bottom: 10px solid rgba(255, 255, 255, 0.2);
   padding: 0.1em 0.6em;
 }
 tr.even {
