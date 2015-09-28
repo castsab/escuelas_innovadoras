@@ -16,12 +16,12 @@
                 <span ng-show="!form_links.$pristine && form_links.title.$error.required">Campo requerido.</span>
 
                 <span >Descripcion:</span> 
-                <input type="text" name="description" ng-model="description" required="true" >
-                <span ng-show="!form_links.$pristine && form_links.description.$error.required">Campo requerido.</span>
-
+                <input type="text" name="description" ng-model="description" >
+                
                 <span >Enlace:</span> 
-                <input type="text" name="link" ng-model="link" required="true" >
+                <input type="url" name="link" ng-model="link" required="true" >
                 <span ng-show="!form_links.$pristine && form_links.link.$error.required">Campo requerido.</span>
+                <span ng-show="!form_links.$pristine && form_links.link.$error.url">Dirección url no válida.</span>
 
                 <button id="btnAddLink" ng-click="addLink();" ng-disabled="!form_links.$valid">Adicionar</button>
             </form>
@@ -37,7 +37,7 @@
             <tr ng-repeat="arrayLinks in links">
                 <td>{{arrayLinks.title}}</td>
                 <td>{{arrayLinks.description}}</td>
-                <td>{{arrayLinks.link}}</td>
+                <td><a target="_blank" href="{{arrayLinks.link}}">{{arrayLinks.link}}</a></td>
                 <td>
                     <a style="cursor: pointer" ng-click="removeLink($index, arrayLinks.lid);">Borrar</a>
                 </td>
