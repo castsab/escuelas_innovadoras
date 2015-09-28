@@ -33,3 +33,5 @@ xmlrpc.php
 /scripts
 /themes
 /nbproject
+sites/all/modules/devel
+sites/all/modules/context
