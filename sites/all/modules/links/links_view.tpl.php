@@ -14,20 +14,20 @@
                 <span >Titulo:</span> 
                 <input type="text" name="title" ng-model="title" required="true" >
                 <span ng-show="!form_links.$pristine && form_links.title.$error.required">Campo requerido.</span>
-
+                
                 <span >Descripcion:</span> 
                 <input type="text" name="description" ng-model="description" required="true" >
                 <span ng-show="!form_links.$pristine && form_links.description.$error.required">Campo requerido.</span>
-
+                
                 <span >Enlace:</span> 
                 <input type="text" name="link" ng-model="link" required="true" >
                 <span ng-show="!form_links.$pristine && form_links.link.$error.required">Campo requerido.</span>
-
+                
                 <button id="btnAddLink" ng-click="addLink();" ng-disabled="!form_links.$valid">Adicionar</button>
             </form>
         </div> 
 
-        <table border="1">
+        <table class="usuariosProyecto">
             <tr>
                 <th>Titulo</th>
                 <th>Descripción</th>

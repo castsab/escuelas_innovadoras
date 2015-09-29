@@ -1,5 +1,5 @@
 
-
+<h2 class="pane-title2">USUARIOS</h2>
 <div ng-module="UsersProjects" >
     <div ng-controller="usersProjectsController">
         <div class="formularioUsuariosProyecto">
@@ -9,6 +9,7 @@
                 <div ng-show="statusAlert" class="messages--{{typeAlert}} messages status ng-binding">{{msgAlert}}</div>
 
                 <form name="form">
+
                     <input type="hidden" id="pid" name="pid" value="<?php echo $pid; ?>" >
                     <span >Correo:</span> 
                     <input type="email" name="email" ng-model="email" required="true" placeholder="nombre@email.com">
