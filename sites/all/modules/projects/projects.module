@@ -117,7 +117,7 @@ function projects_sort_with_pager_content() {
     }
     
     $output = "";
-    $output .= '<a href ="projects/add">'.t('New project').'</a>';
+    $output .= '<a href ="projects/add" class="botonNuevoProyecto">'.t('Nuevo proyecto').'</a>';
     if (!empty($rows)) {
         $output .= theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id'=>'tbProjects','pid' => 'sort-table')));
         $output .= theme('pager');
