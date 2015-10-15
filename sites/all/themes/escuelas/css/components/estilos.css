@@ -2,10 +2,16 @@
 
 body
 {
-  background-image: url(../../images/geometry2.png);
-  background-repeat: repeat;
   font-family: 'maven_proregular';
   color: #4D4D4D;
+}
+
+html { 
+  background: url(../../images/fondo1.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 @font-face {
@@ -82,16 +88,17 @@ body
 
  #page
  {
- 	background-color: white;
+ 	background-color: rgba(255,255,255,0.8);
+  margin-top: 20px;
  }
 
- .fondoHome
+/* .fondoHome
  {
     background-image: url(../../images/back1-01.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom right;
- }
+ }*/
 
 .page-projects #main
 {
@@ -175,7 +182,7 @@ a:hover
 
 #toboggan-login-link-container a
 {
-  color: white;E3462D
+  color: white;
 }
 
 #toboggan-login-link-container a:hover
@@ -338,6 +345,7 @@ td:last-child
 {
   background-color: #2B356A;
   min-height: 100px;
+  position: relative;
 }
 
 .menuFooter
@@ -623,3 +631,37 @@ input[type="text"]
   width: 100%;
 }
 
+.personaje1
+{
+  width: 181px;
+  height: 145px;
+  position: absolute;
+  background-image: url(../../images/personaje2-01.png);
+  background-repeat: no-repeat;
+  left: 400px;
+  bottom: -70px;
+}
+
+.personaje2
+{
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  background-image: url(../../images/personaje3-01.png);
+  background-repeat: no-repeat;
+  z-index: 20;
+  left: 800px;
+  top: -90px;
+}
+
+.personaje3
+{
+  width: 75px;
+  height: 140px;
+  position: absolute;
+  background-image: url(../../images/personaje1-01.png);
+  background-repeat: no-repeat;
+  z-index: 20;
+  right: -20px;
+  top: -125px;
+}

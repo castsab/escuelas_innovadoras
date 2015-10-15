@@ -144,7 +144,7 @@
 #navigation {
   /* Sometimes you want to prevent overlapping with main div. */
   /* overflow: hidden; */
-  background-color: #2B356A;
+  background-color: #56ABDD;
 }
 #navigation .block {
   margin-bottom: 0;
@@ -171,7 +171,8 @@
 
 #navigation .links li:hover,
 #navigation .menu li:hover {
-  background-color: #56ABDD;
+  background-color: #2B356A;
+  color: white;
 }
 
 #navigation .links li a:hover,
